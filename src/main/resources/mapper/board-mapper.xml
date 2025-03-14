@@ -30,7 +30,7 @@
         WHERE id = #{boardDto.id}
     </update>
 
-    <select id="findById" parameterType="boardDto">
+    <select id="findById" parameterType="Long">
         SELECT
         id, boardtitle, boardwriter, boardhits, boardcontents, boardpass,
         DATE_FORMAT(createdat, '%Y-%m-%d') as createdat

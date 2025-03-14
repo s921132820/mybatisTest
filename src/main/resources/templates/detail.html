@@ -18,27 +18,27 @@
 <table>
   <tr>
     <th>id</th>
-    <td>[[ ${dto.id} ]]</td>
+    <td th:text="${dto.id}"></td>
   </tr>
   <tr>
     <th>title</th>
-    <td>[[ ${dto.boardTitle} ]]</td>
+    <td th:text="${dto.boardTitle}"></td>
   </tr>
   <tr>
     <th>writer</th>
-    <td>[[ ${dto.boardWriter} ]]</td>
+    <td th:text="${dto.boardWriter}"></td>
   </tr>
   <tr>
     <th>date</th>
-    <td>[[ ${dto.createdAt} ]]</td>
+    <td th:text="${dto.createdAt}"></td>
   </tr>
   <tr>
     <th>hits</th>
-    <td>[[ ${dto.boardHits} ]]</td>
+    <td th:text="${dto.boardHits}"></td>
   </tr>
   <tr>
     <th>contents</th>
-    <td>[[ ${dto.boardContents} ]]</td>
+    <td th:text="${dto.boardContents}"></td>
   </tr>
 </table>
 <button id="listReq">목록</button>
@@ -50,12 +50,12 @@
       location.href = '/list';
     })
     $("#updateReq").on("click", function() {
-      location.href = `/update/[[$dto.id]]`
+      location.href = `/update/[[${dto.id}]]`
     })
     $("#deleteReq").on("click", function() {
       let pass = prompt('비밀번호를 입력하세요')
       if(pass == [[${dto.boardPass}]]) {
-        location.href = `/delete/[[$dto.id]]`
+        location.href = `/delete/[[${dto.id}]]`
       } else {
         event.preventDefault();
         alert('비밀번호가 일치하지 않습니다.')
