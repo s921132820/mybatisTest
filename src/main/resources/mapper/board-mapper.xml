@@ -5,11 +5,58 @@
     <insert id="save" parameterType="boardDto">
         INSERT INTO board_table(boardtitle, boardwriter, boardpass, boardcontents)
         VALUES(
-            #{boardDto.boardTitle},
-            #{boardDto.boardWriter},
-            #{boardDto.boardPass},
-            #{boardDto.boardContents}
+        #{boardDto.boardTitle},
+        #{boardDto.boardWriter},
+        #{boardDto.boardPass},
+        #{boardDto.boardContents}
         )
     </insert>
 
+    <select id="findAll" resultType="boardDto">
+        SELECT
+        id, boardtitle, boardwriter, boardhits, boardcontents, DATE_FORMAT(createdat, '%Y-%m-%d') as createdat
+        FROM board_table ORDER BY id DESC
+    </select>
+
+    <update id="updateHits" parameterType="Long">
+        UPDATE board_table SET boardhits = boardhits + 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateById" parameterType="boardDto">
+        UPDATE board_table
+        SET boardtitle = #{boardDto.boardTitle},
+        boardContents = #{boardDto.boardContents}
+        WHERE id = #{boardDto.id}
+    </update>
+
+    <select id="findById" parameterType="boardDto">
+        SELECT
+        id, boardtitle, boardwriter, boardhits, boardcontents, boardpass,
+        DATE_FORMAT(createdat, '%Y-%m-%d') as createdat
+        FROM board_table
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchList" resultType="BoardDto" parameterType="String">
+        SELECT
+        id, boardtitle, boardwriter, boardhits, boardcontents, DATE_FORMAT(createdat, '%Y-%m-%d') as createdat
+        FROM board_table
+        <choose>
+            <when test="category=='title'">
+                WHERE boardTitle LIKE CONCAT('%', #{keword}, '%')
+            </when>
+            <when test="category=='name'">
+                WHERE boardWriter LIKE CONCAT('%', #{keword}, '%')
+            </when>
+            <otherwise>
+                WHERE 1 = 1
+            </otherwise>
+        </choose>
+        ORDER BY id DESC
+    </select>
+
+    <delete id="deleteById" parameterType="Long">
+        DELETE FROM board_table WHERE id = #{id}
+    </delete>
 </mapper>

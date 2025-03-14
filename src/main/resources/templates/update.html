@@ -2,16 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   <title>Title</title>
 </head>
 <body>
-<form th:action="" method="post" name="updateForm">
-  <input type="hidden" name="id">
-  writer: <input type="text" name="boardWriter" readonly><br>
-  title: <input type="text" name="boardTitle" ><br>
+<form th:action="@{|update/{dto.id}|}" method="post" id="updateForm">
+  <input type="hidden" name="id" th:value="${dto.id}">
+  writer: <input type="text" name="boardWriter" readonly th:filed="${dto.boardWriter}"><br>
+  title: <input type="text" name="boardTitle"  th:filed="${dto.boardTitle}"><br>
   pass: <input type="text" name="boardPass" id="board-pass"><br>
-  contents: <textarea name="boardContents" cols="30" rows="10"></textarea><br>
-  <input type="button" value="수정" onclick="board_update()">
+  contents: <textarea name="boardContents" cols="30" rows="10" th:filed="${dto.boardContents}"></textarea><br>
+  <input type="button" value="수정" id="board_update">
 </form>
+<script th:inline="javascript">
+  $(document).ready(function() {
+    $("#board_update").on("click", function() {
+      event.preventDefault();
+      if($(#board-pass).val() == [[$dto.boardPass]]) {
+        $("#updateForm").submit();
+      } else {
+        alert('비밀번호가 일치하지 않습니다.')
+      }
+    })
+  })
+</script>
 </body>
 </html>

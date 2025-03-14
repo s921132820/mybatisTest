@@ -3,11 +3,13 @@ package com.my.mybatisTest.controllor;
 import com.my.mybatisTest.dto.BoardDto;
 import com.my.mybatisTest.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -39,8 +41,10 @@ public class BoardController {
         return "list";
     }
 
-    @GetMapping("/update")
-    public String update() {
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable("id") Long id, Model model) {
+        BoardDto dto = boardService.findById(id);
+        model.addAttribute("dto", dto);
         return "update";
     }
 
@@ -55,8 +59,28 @@ public class BoardController {
         return "detail";
     }
 
-//    @GetMapping("/delete/{id}")
-//    public String delete() {
-//
-//    }
+    @GetMapping("/delete/{id}")
+    public String delete(@Param("id") Long id) {
+        boardService.deleteById(id);
+        return "redirect:/list";
+    }
+
+    @PostMapping("/update/{id}")
+    public String update(@Param("id") Long id,
+                         BoardDto dto) {
+        boardService.updateById(dto);
+        return "redirect:/list";
+    }
+
+    @GetMapping("/search")
+    public String search(
+            @RequestParam("search") String category,
+            @RequestParam("keyword") String keyword,
+            Model model
+    ) {
+        List<BoardDto> boardDtoList = boardService.searchList(category, keyword);
+        model.addAttribute("lists", boardDtoList);
+        return "list";
+    }
+
 }

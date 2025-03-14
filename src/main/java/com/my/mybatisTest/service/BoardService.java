@@ -28,4 +28,16 @@ public class BoardService {
     public BoardDto findById(Long id) {
         return boardMapper.findById(id);
     }
+
+    public void deleteById(Long id) {
+        boardMapper.deleteById(id);
+    }
+
+    public void updateById(BoardDto dto) {
+        boardMapper.updateById(dto);
+    }
+
+    public List<BoardDto> searchList(String category, String keyword) {
+        return boardMapper.searchList(category, keyword);
+    }
 }

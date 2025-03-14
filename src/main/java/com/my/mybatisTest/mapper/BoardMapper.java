@@ -15,4 +15,10 @@ public interface BoardMapper {
     void updateHits(Long id);
 
     BoardDto findById(@Param("id") Long id);
+
+    void deleteById(Long id);
+
+    void updateById(@Param("boardDto") BoardDto dto);
+
+    List<BoardDto> searchList(@Param("category") String category, @Param("keyword") String keyword);
 }
